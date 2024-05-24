@@ -1,0 +1,46 @@
+--CREATE DATABASE QLSV;
+--GO
+
+--USE QLSV;
+--GO
+
+CREATE TABLE SinhVien (
+    MaSV INT PRIMARY KEY,
+    HoTen NVARCHAR(100),
+    Lop INT,
+    DiemTB FLOAT
+	CONSTRAINT FK_Lop FOREIGN KEY (Lop) REFERENCES Lop(MaLop)
+);
+GO
+
+CREATE TABLE Lop (
+    MaLop INT PRIMARY KEY,
+    TenLop NVARCHAR(100),
+    CVHT NVARCHAR(100)
+);
+
+ALTER TABLE Lop
+ADD CONSTRAINT CHK_TenLop CHECK (TenLop NOT LIKE '%[^a-zA-Z ]%' COLLATE Latin1_General_BIN)
+
+ALTER TABLE Lop
+ADD CONSTRAINT CHK_CVHT CHECK (CVHT NOT LIKE '%[^a-zA-Z ]%' COLLATE Latin1_General_BIN)
+
+ALTER TABLE SinhVien
+ADD CONSTRAINT CHK_HoTen CHECK (HoTen NOT LIKE '%[^a-zA-Z ]%' COLLATE Latin1_General_BIN)
+
+ALTER TABLE SinhVien
+ADD CONSTRAINT CHK_DiemTB CHECK (DiemTB >= 0 AND DiemTB <= 10);
+
+INSERT INTO SinhVien (MaSV, HoTen, Lop, DiemTB) VALUES 
+(13070104, 'Nguyen Thi Huynh Cham', 330021, 7.5),
+(17082004, 'To Vinh Tien', 330022, 8.0),
+(30052004, 'Ry Chi', 330023, 6.5)
+
+
+INSERT INTO Lop (MaLop, TenLop, CVHT) VALUES
+(330021, 'Java', 'Le Thanh Trong'),
+(330022, 'Python', 'Nguyen Tan Tran Minh Khang'),
+(330023, 'Mobile', 'Terry')
+
+--DROP TABLE SinhVien
+--DROP TABLE Lop
